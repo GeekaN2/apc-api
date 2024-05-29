@@ -19,3 +19,29 @@ model User {
   nickname String @unique
   password String
 }
+
+model Server {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  // Uses as a unique human-readable identifier
+  label          String   @unique
+  name           String
+  description    String
+  natsUrl        String
+  healthCheckUrl String
+  scope          String
+  userAccessIds  String[] @db.ObjectId
+}
+
+model MarketOrder {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  OrderId         String
+  ItemId          String
+  LocationId      String
+  QualityLevel    Int
+  UnitPriceSilver Int
+  Amount          Int
+  AuctionType     String
+  CreatedAt       DateTime
+  UpdatedAt       DateTime
+  Expires         DateTime
+}
