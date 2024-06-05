@@ -5,6 +5,26 @@ networks:
     driver: bridge
 
 services:
+  # setup MongoDB cluster for production
+  mongo-replica-setup:
+    container_name: mongo-setup
+    image: 'mongo:latest'
+    restart: on-failure
+    networks:
+      - app-network
+    volumes:
+      - ./.docker/mongodb/scripts/mongosetup.sh:/scripts/mongosetup.sh
+    entrypoint: ['bash', '/scripts/mongosetup.sh']
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    depends_on:
+      - mongodb1
+      - mongodb2
+      - mongodb3
+
   mongodb1:
     image: mongo:latest
     container_name: mongodb1
