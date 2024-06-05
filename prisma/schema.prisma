@@ -20,16 +20,22 @@ model User {
   password String
 }
 
+enum ServerScope {
+  public
+  private
+}
+
 model Server {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
   // Uses as a unique human-readable identifier
-  label          String   @unique
+  label          String      @unique
   name           String
   description    String
   natsUrl        String
   healthCheckUrl String
-  scope          String
-  userAccessIds  String[] @db.ObjectId
+  scope          ServerScope
+  userAccessIds  String[]    @db.ObjectId
+  creatorId      String      @db.ObjectId
 }
 
 model MarketOrder {
